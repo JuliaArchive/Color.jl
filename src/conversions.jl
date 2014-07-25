@@ -14,6 +14,8 @@ function convert{T,U}(::Type{AlphaColorValue{T}}, c::AlphaColorValue{U})
     AlphaColorValue{T}(convert(T, c.c), c.alpha)
 end
 
+# Temporary buffers to avoid allocations when using matrix multiplication
+const tmp1, tmp2 = Array(Float64, 3), Array(Float64, 3)
 
 # Everything to RGB
 # -----------------
@@ -77,12 +79,12 @@ function srgb_compand(v::Float64)
     v <= 0.0031308 ? 12.92v : 1.055v^(1/2.4) - 0.055
 end
 
-
 function convert(::Type{RGB}, c::XYZ)
-    ans = M_XYZ_RGB * [c.x, c.y, c.z]
-    correct_gamut(RGB(srgb_compand(ans[1]),
-                      srgb_compand(ans[2]),
-                      srgb_compand(ans[3])))
+    tmp1[1], tmp1[2], tmp1[3] = c.x, c.y, c.z
+    gemv3!(tmp2, M_XYZ_RGB, tmp1)
+    correct_gamut(RGB(srgb_compand(tmp2[1]),
+                      srgb_compand(tmp2[2]),
+                      srgb_compand(tmp2[3])))
 end
 
 convert(::Type{RGB}, c::xyY)   = convert(RGB, convert(XYZ, c))
@@ -180,11 +182,11 @@ const M_RGB_XYZ =
 
 
 function convert(::Type{XYZ}, c::RGB)
-    v = [invert_rgb_compand(c.r),
-         invert_rgb_compand(c.g),
-         invert_rgb_compand(c.b)]
-    ans = M_RGB_XYZ * v
-    XYZ(ans[1], ans[2], ans[3])
+    tmp1[1] = invert_rgb_compand(c.r)
+    tmp1[2] = invert_rgb_compand(c.g)
+    tmp1[3] = invert_rgb_compand(c.b)
+    gemv3!(tmp2, M_RGB_XYZ, tmp1)
+    XYZ(tmp2[1], tmp2[2], tmp2[3])
 end
 
 
@@ -284,8 +286,9 @@ end
 
 
 function convert(::Type{XYZ}, c::LMS)
-    ans = CAT02_INV * [c.l, c.m, c.s]
-    XYZ(ans[1], ans[2], ans[3])
+    tmp1[1], tmp1[2], tmp1[3] = c.l, c.m, c.s
+    gemv3!(tmp2, CAT02_INV, tmp1)
+    XYZ(tmp2[1], tmp2[2], tmp2[3])
 end
 
 # Everything to xyY
@@ -628,8 +631,9 @@ const CAT02_INV = inv(CAT02)
 
 
 function convert(::Type{LMS}, c::XYZ)
-    ans = CAT02 * [c.x, c.y, c.z]
-    LMS(ans[1], ans[2], ans[3])
+    tmp1[1], tmp1[2], tmp1[3] = c.x, c.y, c.z
+    gemv3!(tmp2, CAT02, tmp1)
+    LMS(tmp2[1], tmp2[2], tmp2[3])
 end
 
 
@@ -654,3 +658,11 @@ convert(::Type{Uint32}, c::RGB24) = c.color
 
 convert(::Type{Uint32}, ac::RGBA32) = convert(Uint32, ac.c) | iround(Uint32, 255*ac.alpha)<<24
 
+# Fast fixed-size matrix multiplication
+# Copied from AffineTransforms.jl
+function gemv3!(res, A, x)
+    @inbounds res[1] = A[1]*x[1] + A[4]*x[2] + A[7]*x[3]
+    @inbounds res[2] = A[2]*x[1] + A[5]*x[2] + A[8]*x[3]
+    @inbounds res[3] = A[3]*x[1] + A[6]*x[2] + A[9]*x[3]
+    res
+end
