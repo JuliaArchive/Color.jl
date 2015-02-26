@@ -17,7 +17,7 @@ What follows is a synopsis of every colorspace implemented in Color.jl. Any
 color value can be converted to a similar value in any other colorspace using
 the `convert` function.
 
-E.g.
+e.g.
 ```julia
 convert(RGB, HSL(270, 0.5, 0.5))
 ```
@@ -102,7 +102,7 @@ Currently, XYZ is the only type other than RGB supporting `FixedPoint`.
 
 ### xyY
 
-The xyY colorspace is another CIE standardized color space, based directly off of a transformation from XYZ. It was developed specifically because the xy chromaticity space is invariant to the lightness of the patch.
+The xyY colorspace is another CIE standardized colorspace, based directly off of a transformation from XYZ. It was developed specifically because the xy chromaticity space is invariant to the lightness of the patch.
 
 ```julia
 immutable xyY{T} <: ColorValue
@@ -114,7 +114,7 @@ end
 
 ### LAB
 
-A percuptually uniform colorpsace standardized by the CIE in 1976. See also LUV,
+A perceptually uniform colorspace standardized by the CIE in 1976. See also LUV,
 the associated colorspace standardized the same year.
 
 ```julia
@@ -127,7 +127,7 @@ end
 
 ### LUV
 
-A perceptually uniform colorpsace standardized by the CIE in 1976. See also LAB,
+A perceptually uniform colorspace standardized by the CIE in 1976. See also LAB,
 a similar colorspace standardized the same year.
 
 ```julia
