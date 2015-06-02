@@ -9,6 +9,12 @@ function makeshow(CV, CVstr, fields)
             $ex
         end
     end)
+    eval(quote
+        function show{T<:FloatingPoint}(io::IO, c::$CV{T})
+            print(io, "$($CVstr){", T, "}(")
+            $ex
+        end
+    end)
 end
 
 for (CV, CVstr, fields) in ((RGB,  "RGB",  (:(c.r),:(c.g),:(c.b))),
