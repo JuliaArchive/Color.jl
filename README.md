@@ -401,7 +401,7 @@ end
 
 ## Transparency (alpha values)  <a id="transparency"></a>
 
-This package lets you define types that store a transparency value with the `AlphaColorValue` type. For example:
+This package lets you define colors with a transparency value. These use the `AlphaColorValue` type. For example:
 
 ```julia
 faintred = AlphaColorValue(RGB(1,0,0),0.25)
@@ -411,15 +411,15 @@ A value of 1.0 is fully opaque, 0.0 is completely transparent.
 
 Transparent versions of colors are available with an "A" suffix. For example:
 
-+ RGBA{T} is an alias for AlphaColorValue{RGB{T},T}
-+ HSVA{T} is an alias for AlphaColorValue{HSV{T},T}
-+ LuvA{T} is an alias for AlphaColorValue{Luv{T},T}
++ `RGBA{T}` is an alias for `AlphaColorValue{RGB{T},T}`
++ `HSVA{T}` is an alias for `AlphaColorValue{HSV{T},T}`
++ `LuvA{T}` is an alias for `AlphaColorValue{Luv{T},T}`
 
 and so on. Similarly, conversions are available:
 
-+ rgba{T}(c::ColorValue{T}) = AlphaColorValue(convert(RGB{T},c))
-+ hsva{T}(c::ColorValue{T}) = AlphaColorValue(convert(HSV{T},c))
-+ luva{T}(c::ColorValue{T}) = AlphaColorValue(convert(Luv{T},c))
++ `rgba{T}(c::ColorValue{T}) = AlphaColorValue(convert(RGB{T},c))`
++ `hsva{T}(c::ColorValue{T}) = AlphaColorValue(convert(HSV{T},c))`
++ `luva{T}(c::ColorValue{T}) = AlphaColorValue(convert(Luv{T},c))`
 
 and so on.
 
@@ -602,7 +602,7 @@ The currently supported colormap names are:
 | ---------- | ------- |
 | Blues | ![Blues](images/Blues.png "Blues") |
 | Greens | ![Greens](images/Greens.png "Greens") |
-| Grays | <!-- image to go here --> |
+| Grays |  |
 | Oranges | ![Oranges](images/Oranges.png "Oranges") |
 | Purples | ![Purples](images/Purples.png "Purples") |
 | Reds | ![Reds](images/Reds.png "Reds") |
