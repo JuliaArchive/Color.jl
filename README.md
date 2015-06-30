@@ -72,7 +72,7 @@ Most of the common names for colors are available directly with the `color()` fu
 
 For example, if you're using [Gadfly](http://dcjones.github.io/Gadfly.jl/), you can specify colors for plot themes using the `color()` function with the `default_color` parameter:
 
-```
+```julia
     ... Theme(default_color=color("orange")) ...
 ```
 
@@ -221,7 +221,7 @@ The Color.jl package supports the following color spaces:
 + [LMS](#LMS)
 + [RGB24](#RGB24)
 
-— see also [Transparency (alpha values)](#transparency).
+— see also [Transparency](#transparency).
 
 ### RGB <a id="RGB"></a>
 
@@ -381,7 +381,7 @@ immutable DIN99o{T} <: ColorValue
 
 Long-Medium-Short cone response values. Multiple methods of converting to LMS space have been defined. Here the [CAT02](https://en.wikipedia.org/wiki/CIECAM02#CAT02) chromatic adaptation matrix is used.
 
-```
+```julia
 immutable LMS{T} <: ColorValue
     l::T # Long
     m::T # Medium
@@ -602,7 +602,7 @@ The currently supported colormap names are:
 | ---------- | ------- |
 | Blues | ![Blues](images/Blues.png "Blues") |
 | Greens | ![Greens](images/Greens.png "Greens") |
-| Grays | <!-- ![Grays](images/Greens.png "Greens") --> |
+| Grays | <!-- image to go here --> |
 | Oranges | ![Oranges](images/Oranges.png "Oranges") |
 | Purples | ![Purples](images/Purples.png "Purples") |
 | Reds | ![Reds](images/Reds.png "Reds") |
