@@ -27,7 +27,8 @@ export ColorValue, color,
        distinguishable_colors,
        colordiff, DE_2000, DE_94, DE_JPC79, DE_CMC, DE_BFD, DE_AB, DE_DIN99, DE_DIN99d, DE_DIN99o,
        MSC, sequential_palette, diverging_palette, colormap,
-       colormatch, CIE1931_CMF, CIE1964_CMF, CIE1931J_CMF, CIE1931JV_CMF
+       colormatch, CIE1931_CMF, CIE1964_CMF, CIE1931J_CMF, CIE1931JV_CMF,
+       cubehelix
 
 # The core; every other include will need these type definitions
 include("colorspaces.jl")
@@ -43,6 +44,8 @@ include("differences.jl")
 include("colormaps.jl")
 include("display.jl")
 include("colormatch.jl")
+
+include("cubehelix.jl")
 
 @deprecate RGBA32 ARGB32
 @deprecate rgba32 argb32
