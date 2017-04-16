@@ -48,7 +48,7 @@ immutable RGB{T<:Fractional} <: AbstractRGB{T}
 end
 RGB{T<:Fractional}(r::T, g::T, b::T) = RGB{T}(r, g, b)
 RGB(r, g, b) = (T = promote_type(typeof(r), typeof(g), typeof(b)); RGB{T}(r, g, b))
-RGB(r::Integer, g::Integer, b::Integer) = RGB{Float64}(r, g, b)
+RGB(r::Integer, g::Integer, b::Integer) = RGB(r/typemax(r), g/typemax(g), b/typemax(b))
 RGB() = RGB(0.0, 0.0, 0.0)
 
 typemin{T}(::Type{RGB{T}}) = RGB{T}(zero(T), zero(T), zero(T))
